@@ -1,46 +1,50 @@
-document.addEventListener("DOMContentLoaded", function () {
-    // Load app data from JSON
-    fetch('appData.json')
-        .then(response => response.json())
-        .then(data => displayApps(data))
-        .catch(error => console.error('Error fetching app data:', error));
+document.addEventListener('DOMContentLoaded', function() {
+  // Dummy data for app list
+  const apps = [
+    { name: 'App 1', icon: 'app1.png', description: 'Description of App 1', downloadLink: 'https://example.com/app1' },
+    { name: 'App 2', icon: 'app2.png', description: 'Description of App 2', downloadLink: 'https://example.com/app2' },
+    // Add more apps as needed
+  ];
+
+  // Populate app list
+  const appList = document.getElementById('app-list');
+  apps.forEach(app => {
+    const listItem = document.createElement('ons-list-item');
+    listItem.innerHTML = `
+      <ons-card>
+        <img class="app-icon" src="${app.icon}" alt="App Icon">
+        <div class="title">${app.name}</div>
+      </ons-card>
+    `;
+    listItem.addEventListener('click', function() {
+      showAppDetail(app);
+    });
+    appList.appendChild(listItem);
+  });
 });
 
-function displayApps(apps) {
-    const appContainer = document.getElementById('app-container');
-
-    apps.forEach(app => {
-        const appCard = document.createElement('div');
-        appCard.classList.add('app-card');
-        appCard.innerHTML = `
-            <img src="${app.icon}" alt="${app.name}">
-            <h3>${app.name}</h3>
-        `;
-        appCard.addEventListener('click', () => openPopup(app));
-        appContainer.appendChild(appCard);
-    });
+function showAppDetail(app) {
+  const navigator = document.querySelector('#navigator');
+  navigator.pushPage('detail-page', {
+    data: { app }
+  });
 }
 
-function openPopup(app) {
-    const popup = document.getElementById('popup');
-    const popupContent = document.getElementById('popup-content');
-    const popupTitle = document.getElementById('popup-title');
-    const popupIcon = document.getElementById('popup-icon');
-    const downloadBtn = document.getElementById('download-btn');
+document.addEventListener('show', function(event) {
+  if (event.target.id === 'detail-page') {
+    const app = event.target.data.app;
+    document.getElementById('app-title').textContent = app.name;
+    document.getElementById('app-detail-title').textContent = app.name;
+    document.getElementById('app-detail-icon').src = app.icon;
+    document.getElementById('app-detail-content').textContent = app.description;
 
-    popupTitle.textContent = app.name;
-    popupIcon.src = app.icon;
-    downloadBtn.addEventListener('click', () => downloadApp(app));
+    // Store download link for later use
+    document.getElementById('app-detail-card').downloadLink = app.downloadLink;
+  }
+});
 
-    popup.style.display = 'flex';
-}
-
-function closePopup() {
-    const popup = document.getElementById('popup');
-    popup.style.display = 'none';
-}
-
-function downloadApp(app) {
-    // Implement app download logic here
-    console.log('Downloading app:', app.name);
+function downloadApp() {
+  const downloadLink = document.getElementById('app-detail-card').downloadLink;
+  // Add logic to handle the app download
+  console.log(`Downloading app from: ${downloadLink}`);
 }
