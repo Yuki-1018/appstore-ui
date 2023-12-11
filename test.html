@@ -3,60 +3,98 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AppStore</title>
   <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
   <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://unpkg.com/onsenui/js/onsenui.js"></script>
+  <title>App Store</title>
+</head>
+<body>
+  <!-- Home Page -->
+  <ons-page id="home-page">
+    <ons-toolbar>
+      <div class="center">App Store</div>
+    </ons-toolbar>
+
+    <ons-list id="app-list" modifier="material">
+      <!-- App Cards will be dynamically added here using JavaScript -->
+    </ons-list>
+  </ons-page>
+
+  <!-- Detail Page -->
+  <ons-page id="detail-page">
+    <ons-toolbar>
+      <div class="left">
+        <ons-back-button>Back</ons-back-button>
+      </div>
+      <div class="center">App Details</div>
+    </ons-toolbar>
+
+    <div id="app-details" class="padding">
+      <!-- App details will be dynamically added here using JavaScript -->
+    </div>
+  </ons-page>
+
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-  // Load app data from JSON file
-  fetch('apps.json')
-    .then(response => response.json())
-    .then(data => {
-      // Generate app cards
+    document.addEventListener('init', function(event) {
+      if (event.target.id === 'home-page') {
+        // Populate the app list dynamically
+        populateAppList();
+      } else if (event.target.id === 'detail-page') {
+        // Get the app details based on the clicked card
+        const appName = event.target.data.appName;
+        const appIcon = event.target.data.appIcon;
+        const downloadLink = event.target.data.downloadLink;
+
+        // Populate the app details dynamically
+        populateAppDetails(appName, appIcon, downloadLink);
+      }
+    });
+
+    function populateAppList() {
       const appList = document.getElementById('app-list');
-      data.apps.forEach(app => {
+
+      // Sample app data
+      const apps = [
+        { name: 'App 1', icon: 'fas fa-mobile', downloadLink: 'https://example.com/app1' },
+        { name: 'App 2', icon: 'fas fa-globe', downloadLink: 'https://example.com/app2' },
+        // Add more app data as needed
+      ];
+
+      // Create app cards dynamically
+      apps.forEach(app => {
         const listItem = document.createElement('ons-list-item');
         listItem.innerHTML = `
           <div class="left">
-            <img class="list-item__thumbnail" src="${app.icon}" alt="${app.name}">
+            <img class="list-item__thumbnail" src="${app.icon}">
           </div>
           <div class="center">
             <span class="list-item__title">${app.name}</span>
-            <span class="list-item__subtitle">${app.category}</span>
           </div>
         `;
-        listItem.addEventListener('click', function () {
-          // Open app details page
-          showAppDetails(app);
-        });
+        listItem.addEventListener('click', () => showAppDetails(app.name, app.icon, app.downloadLink));
         appList.appendChild(listItem);
       });
-    })
-    .catch(error => console.error('Error loading app data:', error));
-});
+    }
 
-function showAppDetails(app) {
-  ons.notification.alert({
-    title: app.name,
-    message: `
-      <p>${app.description}</p>
-      <p><a href="${app.downloadLink}" target="_blank">Download Now</a></p>
-    `
-  });
-}
+    function showAppDetails(appName, appIcon, downloadLink) {
+      const navigator = document.getElementById('navigator');
+      navigator.pushPage('detail-page', { data: { appName, appIcon, downloadLink } });
+    }
 
+    function populateAppDetails(appName, appIcon, downloadLink) {
+      const appDetailsContainer = document.getElementById('app-details');
+      appDetailsContainer.innerHTML = `
+        <div>
+          <img src="${appIcon}" style="max-width: 100%">
+        </div>
+        <div style="margin-top: 10px;">
+          <h2>${appName}</h2>
+          <p>Download Link: <a href="${downloadLink}" target="_blank">${downloadLink}</a></p>
+          <!-- Add more details as needed -->
+        </div>
+      `;
+    }
   </script>
-</head>
-<body>
-
-  <ons-page>
-    <ons-toolbar>
-      <div class="center">AppStore</div>
-    </ons-toolbar>
-
-    <ons-list id="app-list"></ons-list>
-  </ons-page>
-
 </body>
 </html>
