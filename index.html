@@ -3,32 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App Store</title>
     <link rel="stylesheet" href="styles.css">
+    <title>AppStore</title>
 </head>
 <body>
-
-<div class="app-store">
-    <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Search for apps...">
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search...">
         <button onclick="searchApps()">Search</button>
     </div>
-    <div class="app-list" id="appList">
-        <!-- App cards will be dynamically added here -->
+    <div id="appList" class="app-list"></div>
+
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <h2 id="popupAppName"></h2>
+            <img id="popupAppIcon" alt="App Icon">
+            <a id="downloadButton" href="#" target="_blank">Download</a>
+        </div>
     </div>
-</div>
 
-<!-- App details popup -->
-<div class="popup" id="appPopup">
-    <div class="popup-content">
-        <span class="close" onclick="closePopup()">&times;</span>
-        <div id="popupAppDetails"></div>
-        <button id="downloadButton" onclick="downloadApp()">Download</button>
-    </div>
-</div>
-
-<script src="data.json"></script>
-<script src="app.js"></script>
-
+    <script src="scripts.js"></script>
 </body>
 </html>
