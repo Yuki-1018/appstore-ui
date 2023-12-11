@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stylish App Store</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(to right, #ff5e62, #ff9966);
+    }
+
+    header {
+      background-color: #ffffff;
+      color: #333;
+      text-align: center;
+      padding: 15px;
+      font-size: 24px;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .page {
+      display: none;
+    }
+
+    main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      flex-grow: 1;
+      padding-top: 70px; /* Adjusted padding to make space for the fixed header */
+      padding-bottom: 80px;
+    }
+
+    .app-card {
+      background-color: #ffffff;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease-in-out;
+      width: 250px;
+      text-align: center;
+      margin: 10px;
+    }
+
+    .app-card:hover {
+      transform: scale(1.02);
+    }
+
+    .app-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    .install-button {
+      background-color: #4caf50;
+      color: #ffffff;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .description-card {
+      background-color: #ffffff;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      text-align: center;
+      margin: 10px auto;
+    }
+
+    .description-card p {
+      color: #333;
+      font-size: 16px;
+    }
+
+    .install-popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      text-align: center;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #ff5e62;
+      color: #ffffff;
+      padding: 5px 10px;
+      font-size: 14px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .dock-bar {
+      background-color: #333;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .dock-icon {
+      color: #ffffff;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+
+<header>Stylish App Store</header>
+
+<main class="page" id="page1">
+  <div class="description-card">
+    <p>Welcome to the Stylish App Store! Discover amazing apps and enhance your digital experience.</p>
+  </div>
+
+   <div class="app-card" onclick="showInstallPopup('popup1')">
+    <img src="app1-screenshot.jpg" alt="App 1 Screenshot">
+    <h2>Awesome App 1</h2>
+    <p>Description of Awesome App 1.</p>
+    <button class="install-button">Install</button>
+  </div>
+
+  <div class="app-card" onclick="showInstallPopup('popup2')">
+    <img src="app2-screenshot.jpg" alt="App 2 Screenshot">
+    <h2>Awesome App 2</h2>
+    <p>Description of Awesome App 2.</p>
+    <button class="install-button">Install</button>
+  </div>
+
+  <div class="app-card" onclick="showInstallPopup('popup3')">
+    <img src="app3-screenshot.jpg" alt="App 3 Screenshot">
+    <h2>Awesome App 3</h2>
+    <p>Description of Awesome App 3.</p>
+    <button class="install-button">Install</button>
+  </div>
+
+  <div class="app-card" onclick="showInstallPopup('popup4')">
+    <img src="app4-screenshot.jpg" alt="App 4 Screenshot">
+    <h2>Awesome App 4</h2>
+    <p>Description of Awesome App 4.</p>
+    <button class="install-button">Install</button>
+  </div>
+
+  <div class="app-card" onclick="showInstallPopup('popup5')">
+    <img src="app5-screenshot.jpg" alt="App 5 Screenshot">
+    <h2>Awesome App 5</h2>
+    <p>Description of Awesome App 5.</p>
+    <button class="install-button">Install</button>
+  </div>
+  <!-- ... (other app cards) ... -->
+
+</main>
+
+<main class="page" id="page2">
+  <div class="description-card">
+    <p>Explore the latest apps and customize your experience.</p>
+  </div>
+
+  <div class="app-card" onclick="showInstallPopup('popup2')">
+    <img src="app2-screenshot.jpg" alt="App 2 Screenshot">
+    <h2>Cool App 2</h2>
+    <p>Description of Cool App 2.</p>
+    <button class="install-button">Install</button>
+  </div>
+
+  <!-- ... (other app cards for page 2) ... -->
+
+</main>
+
+<main class="page" id="page3">
+  <div class="description-card">
+    <p>Read our Terms of Service and make the most out of your app experience.</p>
+  </div>
+
+  <div class="description-card">
+    <p>Terms of Service:</p>
+    <p>1. Be awesome.</p>
+    <p>2. Have fun.</p>
+  </div>
+</main>
+
+<div class="install-popup" id="popup1">
+  <button class="close-button" onclick="closeInstallPopup('popup1')">Close</button>
+  <h2>Install Awesome App 1</h2>
+  <p>Are you sure you want to install Awesome App 1?</p>
+  <button class="install-button">Yes, Install</button>
+</div>
+
+<div class="install-popup" id="popup2">
+  <button class="close-button" onclick="closeInstallPopup('popup2')">Close</button>
+  <h2>Install Cool App 2</h2>
+  <p>Are you sure you want to install Cool App 2?</p>
+  <button class="install-button">Yes, Install</button>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeInstallPopup('popup1'); closeInstallPopup('popup2')"></div>
+
+<div class="dock-bar">
+  <div class="dock-icon" onclick="showPage('page1')">
+    <div>📱</div>
+    <div>Home</div>
+  </div>
+  <div class="dock-icon" onclick="showPage('page2')">
+    <div>📊</div>
+    <div>Apps</div>
+  </div>
+  <div class="dock-icon" onclick="showPage('page3')">
+    <div>📜</div>
+    <div>Terms</div>
+  </div>
+  <!-- Add more dock icons for other pages if needed -->
+</div>
+
+<script>
+  // Function to show a specific page
+  function showPage(pageId) {
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(page => {
+      page.style.display = (page.id === pageId) ? 'flex' : 'none';
+    });
+  }
+
+  // Show the first page when the document is loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    showPage('page1');
+  });
+
+  function showInstallPopup(popupId) {
+    document.getElementById(popupId).style.display = "block";
+    document.getElementById('overlay').style.display = "block";
+  }
+
+  function closeInstallPopup(popupId) {
+    document.getElementById(popupId).style.display = "none";
+    document.getElementById('overlay').style.display = "none";
+  }
+</script>
+
+</body>
+</html>
