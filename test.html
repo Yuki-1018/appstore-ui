@@ -1,141 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/onsenui/css/onsenui.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/onsenui/css/onsen-css-components.css">
-    <script src="https://cdn.jsdelivr.net/npm/onsenui/js/onsenui.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
-    <title>App Store</title>
-    <style>
-        body {
-            margin: 0;
-            background-color: #f5f5f5;
-            font-family: 'Helvetica Neue', sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AppStore</title>
+  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.css">
+  <script src="https://unpkg.com/onsenui/js/onsenui.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
 
-        .app-card {
-            margin: 10px;
-            padding: 10px;
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-        }
+    ons-list-item {
+      cursor: pointer;
+    }
 
-        .app-card img {
-            max-width: 100%;
-            height: auto;
-        }
+    .app-card {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
 
-        .popup-content {
-            text-align: center;
-        }
+    .app-icon {
+      width: 50px;
+      height: 50px;
+      margin-right: 10px;
+    }
 
-        .popup-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-    </style>
+    .app-info {
+      flex: 1;
+    }
+
+    .download-page {
+      display: none;
+      padding: 20px;
+    }
+
+    .close-button {
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-    <ons-page>
-        <ons-toolbar>
-            <div class="center">App Store</div>
-        </ons-toolbar>
 
-        <ons-list>
-            <ons-list-item class="app-card" modifier="tappable" onclick="showAppPopup('app1')">
-                <div>
-                    <img src="" alt="App 1" id="app1-icon">
-                </div>
-                <div>
-                    <p id="app1-name"></p>
-                </div>
-            </ons-list-item>
+  <ons-page>
+    <ons-toolbar>
+      <div class="center">AppStore</div>
+    </ons-toolbar>
 
-            <ons-list-item class="app-card" modifier="tappable" onclick="showAppPopup('app2')">
-                <div>
-                    <img src="" alt="App 2" id="app2-icon">
-                </div>
-                <div>
-                    <p id="app2-name"></p>
-                </div>
-            </ons-list-item>
+    <ons-list>
+      <!-- App cards will be dynamically added here -->
+    </ons-list>
 
-            <!-- Add more app cards as needed -->
+    <div class="download-page">
+      <h1>App Download Page</h1>
+      <!-- App details and download link will be dynamically added here -->
+      <ons-button class="close-button" onclick="closeDownloadPage()">Close</ons-button>
+    </div>
+  </ons-page>
 
-        </ons-list>
-    </ons-page>
+  <script>
+    document.addEventListener('init', function(event) {
+      if (event.target.matches('#page')) {
+        loadApps();
+      }
+    });
 
-    <ons-template id="app-popup">
-        <ons-page>
-            <ons-toolbar>
-                <div class="left">
-                    <ons-back-button>Back</ons-back-button>
-                </div>
-                <div class="center" id="popup-title"></div>
-            </ons-toolbar>
+    function loadApps() {
+      // Assuming apps data is stored in a JSON file named 'apps.json'
+      fetch('apps.json')
+        .then(response => response.json())
+        .then(apps => {
+          const list = document.querySelector('ons-list');
+          apps.forEach(app => {
+            const listItem = document.createElement('ons-list-item');
+            listItem.className = 'app-card';
+            listItem.innerHTML = `
+              <img class="app-icon" src="${app.icon}" alt="${app.name}">
+              <div class="app-info">
+                <strong>${app.name}</strong><br>
+                <small>${app.description}</small>
+              </div>
+            `;
+            listItem.addEventListener('click', function() {
+              openDownloadPage(app);
+            });
+            list.appendChild(listItem);
+          });
+        })
+        .catch(error => console.error('Error loading apps', error));
+    }
 
-            <div class="popup-content">
-                <img src="" alt="App Icon" id="popup-icon">
-                <p id="popup-description"></p>
-                <div class="popup-buttons">
-                    <ons-button onclick="downloadApp()">Download</ons-button>
-                    <ons-button onclick="hideAppPopup()">Close</ons-button>
-                </div>
-            </div>
-        </ons-page>
-    </ons-template>
+    function openDownloadPage(app) {
+      const downloadPage = document.querySelector('.download-page');
+      downloadPage.innerHTML = `
+        <h1>${app.name}</h1>
+        <p>${app.description}</p>
+        <img class="app-icon" src="${app.icon}" alt="${app.name}">
+        <a href="${app.downloadLink}" target="_blank">Download</a>
+      `;
+      downloadPage.style.display = 'block';
+    }
 
-    <script>
-        // Sample JSON data for app information
-        const appData = {
-            "app1": {
-                "name": "Sample App 1",
-                "icon": "path/to/app1-icon.png",
-                "description": "This is a sample description for App 1."
-            },
-            "app2": {
-                "name": "Sample App 2",
-                "icon": "path/to/app2-icon.png",
-                "description": "This is a sample description for App 2."
-            }
-            // Add more app data as needed
-        };
+    function closeDownloadPage() {
+      const downloadPage = document.querySelector('.download-page');
+      downloadPage.style.display = 'none';
+    }
+  </script>
 
-        function showAppPopup(appId) {
-            const popup = document.getElementById('app-popup');
-            const popupTitle = document.getElementById('popup-title');
-            const popupIcon = document.getElementById('popup-icon');
-            const popupDescription = document.getElementById('popup-description');
-
-            popupTitle.textContent = appData[appId].name;
-            popupIcon.src = appData[appId].icon;
-            popupDescription.textContent = appData[appId].description;
-
-            ons.openModal('app-popup');
-        }
-
-        function hideAppPopup() {
-            ons.closeModal('app-popup');
-        }
-
-        function downloadApp() {
-            // Add your download logic here
-            console.log('Downloading app...');
-            hideAppPopup();
-        }
-
-        // Initialize app cards with data
-        document.getElementById('app1-icon').src = appData.app1.icon;
-        document.getElementById('app1-name').textContent = appData.app1.name;
-
-        document.getElementById('app2-icon').src = appData.app2.icon;
-        document.getElementById('app2-name').textContent = appData.app2.name;
-
-        // Initialize more app cards as needed
-    </script>
 </body>
 </html>
