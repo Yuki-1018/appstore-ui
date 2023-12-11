@@ -1,18 +1,17 @@
-document.addEventListener("DOMContentLoaded", () => {
-    loadApps();
+document.addEventListener("DOMContentLoaded", async () => {
+    const apps = await fetchApps();
+    displayApps(apps);
 });
 
-function loadApps() {
-    $.ajax({
-        url: "appData.json",
-        dataType: "json",
-        success: (data) => {
-            displayApps(data);
-        },
-        error: (error) => {
-            console.error("Error loading app data:", error);
-        }
-    });
+async function fetchApps() {
+    try {
+        const response = await fetch('appData.json');
+        const data = await response.json();
+        return data.apps;
+    } catch (error) {
+        console.error('Error fetching apps:', error);
+        return [];
+    }
 }
 
 function displayApps(apps) {
@@ -21,17 +20,14 @@ function displayApps(apps) {
 
     apps.forEach((app, index) => {
         const appCard = document.createElement("div");
-        appCard.className = "app-card col-md-4 mb-4";
+        appCard.className = "app-card";
         appCard.innerHTML = `
-            <div class="card">
-                <img src="${app.icon}" class="card-img-top" alt="${app.name} Icon">
-                <div class="card-body">
-                    <h5 class="card-title">${app.name}</h5>
-                    <button class="btn btn-primary" onclick="showPopup(${index})">Details</button>
-                </div>
-            </div>
+            <img src="${app.icon}" alt="${app.name} Icon">
+            <h3>${app.name}</h3>
+            <button onclick="showPopup(${index})">Details</button>
         `;
         appListContainer.appendChild(appCard);
+        appCard.style.animation = `fadeIn 0.5s ease-in-out ${index * 0.1}s`;
     });
 }
 
