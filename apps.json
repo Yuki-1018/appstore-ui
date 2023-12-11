@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Awesome App 1",
+    "description": "An amazing app for your smartphone.",
+    "icon": "path/to/app1-icon.png",
+    "downloadLink": "https://example.com/download/app1"
+  },
+  {
+    "name": "Super App 2",
+    "description": "A super cool app for your device.",
+    "icon": "path/to/app2-icon.png",
+    "downloadLink": "https://example.com/download/app2"
+  }
+]
