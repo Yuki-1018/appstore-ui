@@ -125,8 +125,10 @@
     </div>
 
     <script>
+        let apps = [];
+
         document.addEventListener("DOMContentLoaded", async () => {
-            const apps = await fetchApps();
+            apps = await fetchApps();
             displayApps(apps);
         });
 
