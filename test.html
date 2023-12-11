@@ -2,120 +2,93 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
-  <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
-  <script src="apps.json"></script>
-  <style>
-    .app-card {
-      margin: 10px;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .download-page {
-      display: none;
-      padding: 20px;
-    }
-
-    .close-btn {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    @media screen and (max-width: 600px) {
-      .app-card {
-        width: 90%;
-        margin: 10px auto;
-      }
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/onsenui/css/onsen-css-components.css">
+  <script src="https://cdn.jsdelivr.net/npm/onsenui/js/onsenui.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
-
-  <ons-page>
+  <!-- App list page -->
+  <ons-page id="app-list-page">
     <ons-toolbar>
       <div class="center">AppStore</div>
     </ons-toolbar>
-
     <ons-list>
-      <ons-list-header>App List</ons-list-header>
-      <div id="app-list"></div>
+      <!-- App cards will be dynamically added here using JavaScript -->
     </ons-list>
   </ons-page>
 
-  <ons-template id="download-page.html">
-    <ons-page id="download-page">
-      <ons-toolbar>
-        <div class="left">
-          <ons-back-button>Back</ons-back-button>
-        </div>
-        <div class="center">Download Page</div>
-      </ons-toolbar>
-
-      <div class="download-page">
-        <h2 id="app-title"></h2>
-        <img id="app-icon" style="width: 100px; height: 100px;" alt="App Icon">
-        <p>Download link: <a id="download-link" target="_blank">Download</a></p>
+  <!-- App details page -->
+  <ons-page id="app-details-page">
+    <ons-toolbar>
+      <div class="left">
+        <ons-back-button>Back</ons-back-button>
       </div>
-
-      <div class="close-btn">
-        <ons-button onclick="closeDownloadPage()">Close</ons-button>
-      </div>
-    </ons-page>
-  </ons-template>
+      <div class="center" id="app-title"></div>
+    </ons-toolbar>
+    <div id="app-details">
+      <!-- App details will be dynamically added here using JavaScript -->
+      <ons-button onclick="closeAppDetails()">Close</ons-button>
+    </div>
+  </ons-page>
 
   <script>
-    document.addEventListener('init', function(event) {
-      if (event.target.id === 'download-page') {
-        const appTitle = document.getElementById('app-title');
-        const appIcon = document.getElementById('app-icon');
-        const downloadLink = document.getElementById('download-link');
+    // Sample JSON data for apps
+    const appsData = [
+      {
+        "name": "App 1",
+        "icon": "app1.png",
+        "downloadLink": "https://example.com/app1-download"
+      },
+      // Add more apps as needed
+    ];
 
-        const appId = event.target.data.appId;
-        const appData = getAppDataById(appId);
+    // Function to dynamically generate app cards
+    function generateAppCards() {
+      const appList = document.querySelector("#app-list-page ons-list");
 
-        appTitle.innerText = appData.name;
-        appIcon.src = appData.icon;
-        downloadLink.href = appData.downloadLink;
-      }
-    });
-
-    function closeDownloadPage() {
-      document.getElementById('download-page').hide();
-    }
-
-    function showDownloadPage(appId) {
-      const nav = document.getElementById('navigator');
-      const downloadPage = document.getElementById('download-page.html');
-
-      nav.pushPage(downloadPage, { data: { appId } });
-    }
-
-    function renderAppList() {
-      const appListContainer = document.getElementById('app-list');
-      const fragment = document.createDocumentFragment();
-
-      for (const appData of appDataList) {
-        const appCard = document.createElement('div');
-        appCard.classList.add('app-card');
-        appCard.innerHTML = `
-          <ons-card onclick="showDownloadPage('${appData.id}')">
-            <div class="title">${appData.name}</div>
-            <div class="content">${appData.description}</div>
-          </ons-card>
+      appsData.forEach(app => {
+        const listItem = document.createElement("ons-list-item");
+        listItem.innerHTML = `
+          <div class="left">
+            <img class="list-item__thumbnail" src="${app.icon}">
+          </div>
+          <div class="center">
+            <span class="list-item__title">${app.name}</span>
+          </div>
         `;
-        fragment.appendChild(appCard);
-      }
-
-      appListContainer.appendChild(fragment);
+        listItem.addEventListener("click", () => openAppDetails(app));
+        appList.appendChild(listItem);
+      });
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      renderAppList();
+    // Function to open app details page
+    function openAppDetails(app) {
+      const navigator = document.querySelector("#navigator");
+      document.querySelector("#app-title").innerText = app.name;
+
+      // Create a dynamic download link
+      const downloadLink = document.createElement("a");
+      downloadLink.href = app.downloadLink;
+      downloadLink.innerText = "Download";
+      downloadLink.target = "_blank"; // Open in a new tab
+
+      const appDetails = document.querySelector("#app-details");
+      appDetails.innerHTML = "";
+      appDetails.appendChild(downloadLink);
+
+      navigator.pushPage("app-details-page");
+    }
+
+    // Function to close app details page
+    function closeAppDetails() {
+      const navigator = document.querySelector("#navigator");
+      navigator.popPage();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      generateAppCards();
     });
   </script>
 </body>
