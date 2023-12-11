@@ -3,22 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>AppStore</title>
+    <title>App Store</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        #app-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .app-card {
+            width: 300px;
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .app-card:hover {
+            transform: scale(1.05);
+        }
+
+        .app-icon {
+            max-width: 100%;
+            height: auto;
+        }
+
+        #popup-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        #close-btn {
+            cursor: pointer;
+            font-size: 20px;
+            margin-top: 10px;
+            color: #666;
+        }
+
+        #download-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #4caf50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .app-card {
+                width: calc(50% - 40px);
+            }
+        }
+    </style>
 </head>
 <body>
 
-<div class="app-container" id="app-container"></div>
+<div id="app-container"></div>
 
-<div class="popup" id="popup">
-    <div class="popup-content" id="popup-content">
-        <span class="close-btn" onclick="closePopup()">&times;</span>
+<div id="popup-container">
+    <div id="popup" class="popup">
+        <span id="close-btn">&times;</span>
         <h2 id="popup-title"></h2>
-        <img id="popup-icon" src="" alt="App Icon">
-        <button id="download-btn">Download</button>
+        <img id="popup-icon" class="app-icon" alt="App Icon">
+        <a id="download-btn" href="#" target="_blank">Download</a>
     </div>
 </div>
 
-<script src="app.js"></script>
+<script>
+    // Dummy App Data (Replace with your JSON file or API endpoint)
+    const appData = [
+        {
+            name: "App 1",
+            icon: "app1-icon.png",
+            downloadLink: "https://example.com/app1-download"
+        },
+        {
+            name: "App 2",
+            icon: "app2-icon.png",
+            downloadLink: "https://example.com/app2-download"
+        },
+        {
+            name: "App 3",
+            icon: "app3-icon.png",
+            downloadLink: "https://example.com/app3-download"
+        }
+    ];
+
+    // Function to render app cards
+    function renderAppCards() {
+        const appContainer = document.getElementById('app-container');
+
+        appData.forEach(app => {
+            const appCard = document.createElement('div');
+            appCard.className = 'app-card';
+            appCard.innerHTML = `
+                <img class="app-icon" src="${app.icon}" alt="${app.name}">
+                <h3>${app.name}</h3>
+            `;
+            appCard.addEventListener('click', () => openPopup(app));
+            appContainer.appendChild(appCard);
+        });
+    }
+
+    // Function to open popup
+    function openPopup(app) {
+        const popupContainer = document.getElementById('popup-container');
+        const popup = document.getElementById('popup');
+        const popupTitle = document.getElementById('popup-title');
+        const popupIcon = document.getElementById('popup-icon');
+        const downloadBtn = document.getElementById('download-btn');
+
+        popupTitle.textContent = app.name;
+        popupIcon.src = app.icon;
+        downloadBtn.href = app.downloadLink;
+
+        popupContainer.style.display = 'flex';
+
+        // Close popup when close button is clicked
+        document.getElementById('close-btn').addEventListener('click', closePopup);
+
+        // Close popup when clicking outside the popup
+        window.addEventListener('click', (event) => {
+            if (event.target === popupContainer) {
+                closePopup();
+            }
+        });
+    }
+
+    // Function to close popup
+    function closePopup() {
+        document.getElementById('popup-container').style.display = 'none';
+    }
+
+    // Initialize the app
+    renderAppCards();
+</script>
+
 </body>
 </html>
