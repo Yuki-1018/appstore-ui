@@ -174,7 +174,7 @@
   <div class="app-card" onclick="showInstallPopup('popup3')">
     <img src="delta.jpg" alt="App 3 Screenshot">
     <h2>Delta</h2>
-    <p>ファミコン、スーファミ、GB、DSなどのエミュレータ</p>
+    <p>ファミコン、スーファミ、GB、DSなどのエミュレータです。</p>
     <button class="install-button">Install</button>
   </div>
 
@@ -236,7 +236,12 @@
   <p>Are you sure you want to install Cool App 2?</p>
   <button class="install-button">Yes, Install</button>
 </div>
-
+<div class="install-popup" id="popup3">
+  <button class="close-button" onclick="closeInstallPopup('popup3')">Close</button>
+  <h2>Install Cool App 2</h2>
+  <p>Are you sure you want to install Cool App 2?</p>
+  <button class="install-button">Yes, Install</button>
+</div>
 <div class="overlay" id="overlay" onclick="closeInstallPopup('popup1'); closeInstallPopup('popup2')"></div>
 
 <div class="dock-bar">
