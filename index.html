@@ -3,31 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
     <title>AppStore</title>
 </head>
 <body>
-    <div class="container mt-5">
-        <div class="search-container mb-4">
-            <input type="text" id="searchInput" class="form-control" placeholder="Search...">
-            <button class="btn btn-primary" onclick="searchApps()">Search</button>
+    <header>
+        <h1>AppStore</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search...">
+            <button onclick="searchApps()">Search</button>
         </div>
-        <div id="appList" class="app-list row"></div>
-    </div>
+    </header>
+    
+    <div id="appList" class="app-list"></div>
 
     <div id="popup" class="popup">
         <div class="popup-content">
-            <span class="close" onclick="closePopup">&times;</span>
+            <span class="close" onclick="closePopup()">&times;</span>
             <h2 id="popupAppName"></h2>
-            <img id="popupAppIcon" class="mb-3" alt="App Icon">
-            <a id="downloadButton" class="btn btn-success" href="#" target="_blank">Download</a>
+            <img id="popupAppIcon" alt="App Icon">
+            <a id="downloadButton" href="#" target="_blank">Download</a>
         </div>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="scripts.js"></script>
 </body>
 </html>
