@@ -3,190 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-
-        header {
-            background-color: #2c3e50;
-            color: #ecf0f1;
-            text-align: center;
-            padding: 15px 0;
-        }
-
-        h1 {
-            margin: 0;
-        }
-
-        .search-container {
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .app-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            padding: 20px;
-        }
-
-        .app-card {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin: 10px;
-            padding: 15px;
-            width: 200px;
-            text-align: center;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-
-        .app-card:hover {
-            transform: scale(1.05);
-        }
-
-        .popup {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .popup-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-            color: #2c3e50;
-            cursor: pointer;
-        }
-
-        #downloadButton {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 20px;
-            background-color: #2c3e50;
-            color: #ecf0f1;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        #downloadButton:hover {
-            background-color: #34495e;
-        }
-
-        /* Responsive Styles */
-        @media only screen and (max-width: 600px) {
-            .app-card {
-                width: 100%;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
     <title>AppStore</title>
 </head>
 <body>
-    <header>
-        <h1>AppStore</h1>
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search...">
-            <button onclick="searchApps()">Search</button>
-        </div>
-    </header>
-    
-    <div id="appList" class="app-list"></div>
 
-    <div id="popup" class="popup">
-        <div class="popup-content">
-            <span class="close" onclick="closePopup()">&times;</span>
-            <h2 id="popupAppName"></h2>
-            <img id="popupAppIcon" alt="App Icon">
-            <a id="downloadButton" href="#" target="_blank">Download</a>
-        </div>
+<div class="app-container" id="app-container"></div>
+
+<div class="popup" id="popup">
+    <div class="popup-content" id="popup-content">
+        <span class="close-btn" onclick="closePopup()">&times;</span>
+        <h2 id="popup-title"></h2>
+        <img id="popup-icon" src="" alt="App Icon">
+        <button id="download-btn">Download</button>
     </div>
+</div>
 
-    <script>
-        let apps = [];
-
-        document.addEventListener("DOMContentLoaded", async () => {
-            apps = await fetchApps();
-            displayApps(apps);
-        });
-
-        async function fetchApps() {
-            try {
-                const response = await fetch('appData.json');
-                const data = await response.json();
-                return data.apps;
-            } catch (error) {
-                console.error('Error fetching apps:', error);
-                return [];
-            }
-        }
-
-        function displayApps(apps) {
-            const appListContainer = document.getElementById("appList");
-            appListContainer.innerHTML = "";
-
-            apps.forEach((app, index) => {
-                const appCard = document.createElement("div");
-                appCard.className = "app-card";
-                appCard.innerHTML = `
-                    <img src="${app.icon}" alt="${app.name} Icon">
-                    <h3>${app.name}</h3>
-                    <button onclick="showPopup(${index})">Details</button>
-                `;
-                appListContainer.appendChild(appCard);
-                appCard.style.animation = `fadeIn 0.5s ease-in-out ${index * 0.1}s`;
-            });
-        }
-
-        function showPopup(index) {
-            const popup = document.getElementById("popup");
-            const popupAppName = document.getElementById("popupAppName");
-            const popupAppIcon = document.getElementById("popupAppIcon");
-            const downloadButton = document.getElementById("downloadButton");
-
-            const selectedApp = apps[index];
-
-            popupAppName.textContent = selectedApp.name;
-            popupAppIcon.src = selectedApp.icon;
-            downloadButton.href = selectedApp.downloadLink;
-
-            popup.style.display = "block";
-        }
-
-        function closePopup() {
-            const popup = document.getElementById("popup");
-            popup.style.display = "none";
-        }
-
-        function searchApps() {
-            const searchInput = document.getElementById("searchInput");
-            const searchTerm = searchInput.value.toLowerCase();
-
-            const filteredApps = apps.filter(app => app.name.toLowerCase().includes(searchTerm));
-            displayApps(filteredApps);
-        }
-    </script>
+<script src="app.js"></script>
 </body>
 </html>
