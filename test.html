@@ -3,37 +3,125 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
-  <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
-  <script src="app.js"></script>
-  <title>AppStore</title>
+  <title>App Store</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: #007BFF;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+    }
+
+    #app-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      padding: 20px;
+    }
+
+    .app-card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 10px;
+      padding: 15px;
+      width: 200px;
+      cursor: pointer;
+    }
+
+    .app-card img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    #app-detail {
+      display: none;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 20px;
+      padding: 20px;
+      width: 400px;
+    }
+
+    #back-btn {
+      background-color: #007BFF;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <ons-page id="home-page">
-    <ons-toolbar>
-      <div class="center">AppStore</div>
-    </ons-toolbar>
 
-    <ons-list id="app-list"></ons-list>
-  </ons-page>
+  <header>
+    <h1>App Store</h1>
+  </header>
 
-  <ons-template id="detail-page">
-    <ons-page>
-      <ons-toolbar>
-        <div class="left">
-          <ons-back-button>Back</ons-back-button>
-        </div>
-        <div class="center" id="app-title"></div>
-      </ons-toolbar>
+  <div id="app-list"></div>
 
-      <ons-card id="app-detail-card">
-        <div class="title" id="app-detail-title"></div>
-        <img class="app-icon" id="app-detail-icon" alt="App Icon">
-        <div class="content" id="app-detail-content"></div>
-        <ons-button onclick="downloadApp()" modifier="large">Download</ons-button>
-      </ons-card>
-    </ons-page>
-  </ons-template>
+  <div id="app-detail">
+    <button id="back-btn">Back to App List</button>
+    <h2 id="app-name"></h2>
+    <img id="app-icon" alt="App Icon">
+    <p id="app-description"></p>
+    <a id="download-link" href="#" target="_blank">Download</a>
+  </div>
+
+  <script>
+    const appList = [
+      { name: "App 1", icon: "app1.png", description: "Description of App 1", downloadLink: "https://example.com/app1" },
+      { name: "App 2", icon: "app2.png", description: "Description of App 2", downloadLink: "https://example.com/app2" },
+      // Add more apps as needed
+    ];
+
+    const appListContainer = document.getElementById("app-list");
+    const appDetailContainer = document.getElementById("app-detail");
+    const backBtn = document.getElementById("back-btn");
+    const appName = document.getElementById("app-name");
+    const appIcon = document.getElementById("app-icon");
+    const appDescription = document.getElementById("app-description");
+    const downloadLink = document.getElementById("download-link");
+
+    function showAppList() {
+      appListContainer.innerHTML = "";
+      appList.forEach(app => {
+        const card = document.createElement("div");
+        card.className = "app-card";
+        card.innerHTML = `
+          <img src="${app.icon}" alt="${app.name}">
+          <h3>${app.name}</h3>
+        `;
+        card.addEventListener("click", () => showAppDetail(app));
+        appListContainer.appendChild(card);
+      });
+      appDetailContainer.style.display = "none";
+      appListContainer.style.display = "flex";
+    }
+
+    function showAppDetail(app) {
+      appName.textContent = app.name;
+      appIcon.src = app.icon;
+      appDescription.textContent = app.description;
+      downloadLink.href = app.downloadLink;
+      appListContainer.style.display = "none";
+      appDetailContainer.style.display = "block";
+    }
+
+    backBtn.addEventListener("click", showAppList);
+
+    // Initial display
+    showAppList();
+  </script>
+
 </body>
 </html>
