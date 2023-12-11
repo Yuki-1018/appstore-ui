@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Your CSS styles go here */
+    </style>
+    <title>AppStore</title>
+</head>
+<body>
+    <header>
+        <h1>AppStore</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search...">
+            <button onclick="searchApps()">Search</button>
+        </div>
+    </header>
+    
+    <div id="appList" class="app-list"></div>
+
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <h2 id="popupAppName"></h2>
+            <img id="popupAppIcon" alt="App Icon">
+            <a id="downloadButton" href="#" target="_blank">Download</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const apps = await fetchApps();
+            displayApps(apps);
+        });
+
+        async function fetchApps() {
+            // Simulated JSON data
+            const jsonData = {
+                "apps": [
+                    {
+                        "name": "App 1",
+                        "icon": "app1-icon.png",
+                        "downloadLink": "https://example.com/app1-download"
+                    },
+                    {
+                        "name": "App 2",
+                        "icon": "app2-icon.png",
+                        "downloadLink": "https://example.com/app2-download"
+                    }
+                    // Add more apps as needed
+                ]
+            };
+
+            return jsonData.apps;
+        }
+
+        function displayApps(apps) {
+            const appListContainer = document.getElementById("appList");
+            appListContainer.innerHTML = "";
+
+            apps.forEach((app, index) => {
+                const appCard = document.createElement("div");
+                appCard.className = "app-card";
+                appCard.innerHTML = `
+                    <img src="${app.icon}" alt="${app.name} Icon">
+                    <h3>${app.name}</h3>
+                    <button onclick="showPopup(${index})">Details</button>
+                `;
+                appListContainer.appendChild(appCard);
+                appCard.style.animation = `fadeIn 0.5s ease-in-out ${index * 0.1}s`;
+            });
+        }
+
+        function showPopup(index) {
+            const popup = document.getElementById("popup");
+            const popupAppName = document.getElementById("popupAppName");
+            const popupAppIcon = document.getElementById("popupAppIcon");
+            const downloadButton = document.getElementById("downloadButton");
+
+            const selectedApp = apps[index];
+
+            popupAppName.textContent = selectedApp.name;
+            popupAppIcon.src = selectedApp.icon;
+            downloadButton.href = selectedApp.downloadLink;
+
+            popup.style.display = "block";
+        }
+
+        function closePopup() {
+            const popup = document.getElementById("popup");
+            popup.style.display = "none";
+        }
+
+        function searchApps() {
+            const searchInput = document.getElementById("searchInput");
+            const searchTerm = searchInput.value.toLowerCase();
+
+            const filteredApps = apps.filter(app => app.name.toLowerCase().includes(searchTerm));
+            displayApps(filteredApps);
+        }
+    </script>
+</body>
+</html>
