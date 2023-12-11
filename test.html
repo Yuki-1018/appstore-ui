@@ -4,98 +4,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* Your CSS styles go here */
         body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-}
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
 
-header {
-    background-color: #2c3e50;
-    color: #ecf0f1;
-    text-align: center;
-    padding: 15px 0;
-}
+        header {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 15px 0;
+        }
 
-h1 {
-    margin: 0;
-}
+        h1 {
+            margin: 0;
+        }
 
-.search-container {
-    text-align: center;
-    margin-top: 10px;
-}
+        .search-container {
+            text-align: center;
+            margin-top: 10px;
+        }
 
-.app-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 20px;
-}
+        .app-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
 
-.app-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin: 10px;
-    padding: 15px;
-    width: 200px;
-    text-align: center;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
-}
+        .app-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 10px;
+            padding: 15px;
+            width: 200px;
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
 
-.app-card:hover {
-    transform: scale(1.05);
-}
+        .app-card:hover {
+            transform: scale(1.05);
+        }
 
-.popup {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-}
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
 
-.popup-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-}
+        .popup-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
 
-.close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    color: #2c3e50;
-    cursor: pointer;
-}
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: #2c3e50;
+            cursor: pointer;
+        }
 
-#downloadButton {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 10px 20px;
-    background-color: #2c3e50;
-    color: #ecf0f1;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
+        #downloadButton {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
 
-#downloadButton:hover {
-    background-color: #34495e;
-}
+        #downloadButton:hover {
+            background-color: #34495e;
+        }
 
+        /* Responsive Styles */
+        @media only screen and (max-width: 600px) {
+            .app-card {
+                width: 100%;
+            }
+        }
     </style>
     <title>AppStore</title>
 </head>
@@ -126,24 +131,14 @@ h1 {
         });
 
         async function fetchApps() {
-            // Simulated JSON data
-            const jsonData = {
-                "apps": [
-                    {
-                        "name": "App 1",
-                        "icon": "app1-icon.png",
-                        "downloadLink": "https://example.com/app1-download"
-                    },
-                    {
-                        "name": "App 2",
-                        "icon": "app2-icon.png",
-                        "downloadLink": "https://example.com/app2-download"
-                    }
-                    // Add more apps as needed
-                ]
-            };
-
-            return jsonData.apps;
+            try {
+                const response = await fetch('appData.json');
+                const data = await response.json();
+                return data.apps;
+            } catch (error) {
+                console.error('Error fetching apps:', error);
+                return [];
+            }
         }
 
         function displayApps(apps) {
