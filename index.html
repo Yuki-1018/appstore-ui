@@ -200,6 +200,12 @@
     <p>プレイヤーと譜面制作者の自由度を重視し作り上げるリズムゲーム</p>
     <button class="install-button">Install</button>
   </div>
+  <div class="app-card" onclick="showInstallPopup('popup6')">
+    <img src="ipogo.jpg" alt="App 5 Screenshot">
+    <h2>iPogo</h2>
+    <p>プレイヤーと譜面制作者の自由度を重視し作り上げるリズムゲーム</p>
+    <button class="install-button">Install</button>
+  </div>
   <!-- ... (other app cards) ... -->
 
 </main>
@@ -251,7 +257,25 @@
   <p>Are you sure you want to install Cool App 2?</p>
   <button class="install-button">Yes, Install</button>
 </div>
-<div class="overlay" id="overlay" onclick="closeInstallPopup('popup1'); closeInstallPopup('popup2');closeInstallPopup('popup3')"></div>
+  <div class="install-popup" id="popup4">
+  <button class="close-button" onclick="closeInstallPopup('popup4')">Close</button>
+  <h2>Install Cool App 2</h2>
+  <p>Are you sure you want to install Cool App 2?</p>
+  <button class="install-button">Yes, Install</button>
+</div>
+  <div class="install-popup" id="popup5">
+  <button class="close-button" onclick="closeInstallPopup('popup5')">Close</button>
+  <h2>Install Cool App 2</h2>
+  <p>Are you sure you want to install Cool App 2?</p>
+  <button class="install-button">Yes, Install</button>
+</div>
+  <div class="install-popup" id="popup6">
+  <button class="close-button" onclick="closeInstallPopup('popup6')">Close</button>
+  <h2>Install Cool App 2</h2>
+  <p>Are you sure you want to install Cool App 2?</p>
+  <button class="install-button">Yes, Install</button>
+</div>
+<div class="overlay" id="overlay" onclick="closeInstallPopup('popup1'); closeInstallPopup('popup2');closeInstallPopup('popup3'); closeInstallPopup('popup4'); closeInstallPopup('popup5'); closeInstallPopup('popup6')"></div>
 
 <div class="dock-bar">
   <div class="dock-icon" onclick="showPage('page1')">
