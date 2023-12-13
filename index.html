@@ -228,7 +228,7 @@ body::-webkit-scrollbar {
     <p>証明書期限切れ対策、バン対策のため<font style="color:red">必ず</font>行なってください。</p>
   </div>
 
-  <div class="app-card" onclick="showInstallPopup('popup2')">
+  <div class="app-card" onclick="showInstallPopup('popup7')">
     <img src="app2-screenshot.jpg" alt="App 2 Screenshot">
     <h2>Cool App 2</h2>
     <p>Description of Cool App 2.</p>
@@ -288,7 +288,13 @@ body::-webkit-scrollbar {
   <p>iPogoをインストールしますか？</p>
   <button class="install-button" onclick="location.href='https://google.com'">インストール</button>
 </div>
-<div class="overlay" id="overlay" onclick="closeInstallPopup('popup1'); closeInstallPopup('popup2');closeInstallPopup('popup3'); closeInstallPopup('popup4'); closeInstallPopup('popup5'); closeInstallPopup('popup6')"></div>
+<div class="install-popup" id="popup6">
+  <button class="close-button" onclick="closeInstallPopup('popup7')">閉じる</button>
+  <h2>プロファイル</h2>
+  <p>プロファイルをインストールしますか？</p>
+  <button class="install-button" onclick="location.href='https://appstore-ui.vercel.app/NextDNS.mobileconfig'">インストール</button>
+</div>
+<div class="overlay" id="overlay" onclick="closeInstallPopup('popup1'); closeInstallPopup('popup2');closeInstallPopup('popup3'); closeInstallPopup('popup4'); closeInstallPopup('popup5'); closeInstallPopup('popup6'); closeInstallPopup('popup7')"></div>
 
 <div class="dock-bar">
   <div class="dock-icon" onclick="showPage('page1')">
