@@ -152,14 +152,16 @@ body::-webkit-scrollbar {
       background-color: #333;
 display: -webkit-flex;
     display: flex;
+
+
 justify-content: space-around;
-width:100%;
+
 
       align-items: center;
-   position: fixed;
-      bottom:0%;
-      left:0%;
-      right:0%;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
       height: 50px;
       box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
     }
@@ -168,8 +170,8 @@ width:100%;
       color: #ffffff;
       font-size: 14px;
       cursor: pointer;
-    position: absolute;
-      flex-direction: fixed;
+      display: flex;
+      flex-direction: column;
       align-items: center;
     }
     img{
