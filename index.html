@@ -169,6 +169,33 @@ display: -webkit-flex;
       flex-direction: column;
       align-items: center;
     }
+    .menu-bar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+}
+
+.menu-item {
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.material-icons {
+    font-size: 24px;
+}
+
+.content {
+    padding: 20px;
+    /* Adjust padding based on your content */
+}
     img{
     /* SPの長押し禁止 */
     -webkit-touch-callout:none;
@@ -316,27 +343,21 @@ display: -webkit-flex;
 </div>
 <div class="overlay" id="overlay" onclick="closeInstallPopup('popup1'); closeInstallPopup('popup2');closeInstallPopup('popup3'); closeInstallPopup('popup4'); closeInstallPopup('popup5'); closeInstallPopup('popup6'); closeInstallPopup('popup7')"></div>
 
-<div class="dock-bar">
-  <div class="dock-icon" onclick="showPage('page1')">
-    <div><span class="material-symbols-outlined">
-apps
-</span></div>
-    <div>アプリ</div>
-  </div>
-  <div class="dock-icon" onclick="showPage('page2')" class="middle">
-    <div><span class="material-symbols-outlined">
-cancel
-</span></div>
-    <div>取り消し防止</div>
-  </div>
-  <div class="dock-icon" onclick="showPage('page3')">
-    <div><span class="material-symbols-outlined">
-info
-</span></div>
-    <div>規約・ヘルプ</div>
-  </div>
-  <!-- Add more dock icons for other pages if needed -->
+<div class="menu-bar">
+    <div class="menu-item" id="item1">
+        <i class="material-icons">home</i>
+        <span>Home</span>
+    </div>
+    <div class="menu-item" id="item2">
+        <i class="material-icons">explore</i>
+        <span>Explore</span>
+    </div>
+    <div class="menu-item" id="item3">
+        <i class="material-icons">account_circle</i>
+        <span>Profile</span>
+    </div>
 </div>
+
 
 <script>
   // Function to show a specific page
