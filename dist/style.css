@@ -25,13 +25,13 @@ input {
   align-items: center;
   border: solid 1px #000000;
   display: flex;
-  font-size: 200px;
+  font-size: 300px;
   font-weight: bold;
   justify-content: center;
-  height: 200px;
+  height: 350px;
   margin: 0 auto 10px;
   text-align: center;
-  width: 200px;
+  width: 350px;
 }
 
 .number {
