@@ -1,20 +1,20 @@
 <array>
  <dict>
   <key>EncryptionType</key>
-				<string>Any</string>
-				<key>Password</key>
-				<string>ydkf1783</string>
-				<key>PayloadDisplayName</key>
-				<string>Wi-Fi #1</string>
-				<key>PayloadIdentifier</key>
-				<string>com.apple.wifi.managed.0e45d62d-661e-42bf-9cb1-82ece1217997</string>
-				<key>PayloadType</key>
-				<string>com.apple.wifi.managed</string>
-				<key>PayloadUUID</key>
-				<string>2410ba70-2794-44dd-a331-8e50f31402ab</string>
-				<key>PayloadVersion</key>
-				<integer>1</integer>
-				<key>SSID_STR</key>
-				<string>Shukutoku-Guest</string>
-			</dict>
-		</array>
+  <string>Any</string>
+  <key>Password</key>
+  <string>ydkf1783</string>
+  <key>PayloadDisplayName</key>
+  <string>Wi-Fi #1</string>
+  <key>PayloadIdentifier</key>
+  <string>com.apple.wifi.managed.0e45d62d-661e-42bf-9cb1-82ece1217997</string>
+  <key>PayloadType</key>
+  <string>com.apple.wifi.managed</string>
+  <key>PayloadUUID</key>
+  <string>2410ba70-2794-44dd-a331-8e50f31402ab</string>
+  <key>PayloadVersion</key>
+  <integer>1</integer>
+  <key>SSID_STR</key>
+  <string>Shukutoku-Guest</string>
+ </dict>
+</array>
